@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardias Taxi Mayo 2025</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        h1, h2 { color: #333; text-align: center; }
+        select, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 1em; }
+        .result { margin-top: 20px; font-size: 1.2em; text-align: center; background: #fff; padding: 15px; border-radius: 5px; }
+        .taxitur { color: #008080; font-weight: bold; }
+        .indep1 { color: #DA7635; font-weight: bold; }
+        .indep2 { color: #B59F3B; font-weight: bold; }
+        footer { margin-top: 30px; font-size: 0.9em; text-align: center; color: #555; }
+    </style>
+</head>
+<body>
+    <h1>Guardias Taxi Mayo 2025</h1>
+
+    <h2>Consultar día específico</h2>
+    <select id="fecha"></select>
+    <button onclick="consultarGuardia()">Consultar</button>
+    <div class="result" id="resultado">Selecciona un día para ver quién está de guardia.</div>
+
+    <h2>Consultar rango de días</h2>
+    <label>Desde:</label>
+    <select id="desde"></select>
+    <label>Hasta:</label>
+    <select id="hasta"></select>
+    <button onclick="consultarRango()">Consultar rango</button>
+    <div class="result" id="resultadoRango">Selecciona un rango para ver los turnos.</div>
+
+    <footer>
+        <p><span class="taxitur">● Taxitur</span> - Parada C/ José González Soto</p>
+        <p><span class="indep1">● Independientes P1</span> - Parada C/ Emilio Laria</p>
+        <p><span class="indep2">● Independientes P2</span> - Parada 2 Avda. Castilla</p>
+    </footer>
+
+    <script>
+        const guardias = {
+            1: 'Independientes P1',
+            2: 'Independientes P1',
+            3: 'Taxitur',
+            4: 'Taxitur',
+            5: 'Taxitur',
+            6: 'Independientes P1',
+            7: 'Independientes P1',
+            8: 'Taxitur',
+            9: 'Taxitur',
+            10: 'Taxitur',
+            11: 'Independientes P1',
+            12: 'Independientes P1',
+            13: 'Taxitur',
+            14: 'Taxitur',
+            15: 'Taxitur',
+            16: 'Independientes P1',
+            17: 'Independientes P1',
+            18: 'Taxitur',
+            19: 'Taxitur',
+            20: 'Taxitur',
+            21: 'Independientes P2',
+            22: 'Independientes P1',
+            23: 'Taxitur',
+            24: 'Taxitur',
+            25: 'Independientes P1',
+            26: 'Independientes P1',
+            27: 'Taxitur',
+            28: 'Taxitur',
+            29: 'Taxitur',
+            30: 'Independientes P1',
+            31: 'Independientes P2'
+        };
+
+        const selectDia = document.getElementById('fecha');
+        const selectDesde = document.getElementById('desde');
+        const selectHasta = document.getElementById('hasta');
+
+        for (let i = 1; i <= 31; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.text = `Día ${i}`;
+            selectDia.add(option.cloneNode(true));
+            selectDesde.add(option.cloneNode(true));
+            selectHasta.add(option.cloneNode(true));
+        }
+
+        function consultarGuardia() {
+            const dia = document.getElementById('fecha').value;
+            const resultado = document.getElementById('resultado');
+            const grupo = guardias[dia];
+            const clase = grupo.includes('Taxitur') ? 'taxitur' :
+                          grupo.includes('P1') ? 'indep1' : 'indep2';
+            resultado.innerHTML = `El día <strong>${dia}</strong> está de guardia: <span class="${clase}">${grupo}</span>`;
+        }
+
+        function consultarRango() {
+            const desde = parseInt(document.getElementById('desde').value);
+            const hasta = parseInt(document.getElementById('hasta').value);
+            const resultado = document.getElementById('resultadoRango');
+
+            if (desde > hasta) {
+                resultado.innerHTML = 'El día inicial no puede ser mayor que el final.';
+                return;
+            }
+
+            let resumen = '';
+            for (let i = desde; i <= hasta; i++) {
+                const grupo = guardias[i];
+                const clase = grupo.includes('Taxitur') ? 'taxitur' :
+                              grupo.includes('P1') ? 'indep1' : 'indep2';
+                resumen += `<p>Día ${i}: <span class="${clase}">${grupo}</span></p>`;
+            }
+            resultado.innerHTML = resumen;
+        }
+    </script>
+</body>
+</html>
